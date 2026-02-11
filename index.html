@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -60,15 +61,8 @@
 
     <h1>Hi <span id="name">my love</span>,</h1>
 
-    <p>
-      I wanted to make you something that’s more “you” — so I learned a little coding
-      just to tell you this:
-      <strong>I love you.</strong>
-    </p>
-
-    <p>
-      You make my days softer, my laughs louder, and my heart feel safe.
-      Thank you for being you.
+    <p id="love-message">
+      <!-- This message will appear with typing animation -->
     </p>
 
     <button class="btn" id="revealBtn">Click for a secret 💌</button>
@@ -77,21 +71,46 @@
       <p style="margin:0;">
         If you ever doubt how much you mean to me, remember this:
         <strong>you’re my favorite person</strong> — today and always. 💗
-i also really love your butt and you are truly amazing and making this was a task for sure lol! Hope you are impressed baby!
+        This was super interesting to make and I was already impressed with how you code,
+        but doing this myself... wow you are a cool dude for sure!
       </p>
     </div>
+
+    <p id="days" style="margin-top:18px; font-weight:bold;"></p>
 
     <div class="sig">Love, <span id="from">[your name]</span></div>
   </div>
 
   <script>
-    // Customize these two lines:
-    const boyfriendName = "Arjan";   // e.g. "Adam"
-    const yourName = "Gams";          // e.g. "Sophie"
+    // Customize these:
+    const boyfriendName = "Arjan";
+    const yourName = "Gams";
 
     document.getElementById("name").textContent = boyfriendName;
     document.getElementById("from").textContent = yourName;
 
+    // Typing animation for your love message
+    const message = `I wanted to make you something that’s more “you” — so I learned a little coding
+just to tell you this:
+I love you.
+
+You make my days softer, my laughs louder, and my heart feel safe.
+Thank you for being you.`;
+
+    let i = 0;
+    const speed = 40;
+    const loveMessageEl = document.getElementById("love-message");
+
+    function typeWriter() {
+      if (i < message.length) {
+        loveMessageEl.innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    typeWriter();
+
+    // Secret button
     const btn = document.getElementById("revealBtn");
     const secret = document.getElementById("secret");
 
@@ -100,6 +119,13 @@ i also really love your butt and you are truly amazing and making this was a tas
       secret.style.display = isHidden ? "block" : "none";
       btn.textContent = isHidden ? "Hide the secret 🙈" : "Click for a secret 💌";
     });
+
+    // Days since you met
+    const startDate = new Date("02/07/2022"); // <-- Replace with your anniversary
+    const now = new Date(14/02/2026);
+    const diffTime = Math.abs(now - startDate);
+    const diffDays = Math.floor(diffTime / (1000*60*60*24));
+    document.getElementById("days").textContent = `We’ve been together for ${diffDays} days ❤️`;
   </script>
 </body>
 </html>
