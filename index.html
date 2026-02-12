@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>For My Love ❤️</title>
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #fff0f6;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #2b2b2b;
+  position: relative;
+  overflow-x: hidden;
+  padding: 20px 0;
+}
+
+/* Sparkles */
+#sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+@keyframes floatTwinkle {
+  0% { transform: translate(0,0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)) rotate(360deg); opacity: 0; }
+}
+
+.sparkle, .heart-burst {
+  position: absolute;
+  font-size: 12px;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.sparkle { color: pink; animation: floatTwinkle linear infinite; }
+.heart-burst { color: #ff4d6d; animation: heartFloat linear forwards; }
+
+@keyframes heartFloat {
+  0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)) rotate(var(--rot)); opacity: 0; }
+}
+
+/* Card */
+.card {
+  width: min(720px, 92vw);
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 12px 35px rgba(0,0,0,.12);
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+  text-align: center;
+}
+
+.heart {
+  position: absolute;
+  top: -25px;
+  right: -25px;
+  font-size: 80px;
+  opacity: 0.12;
+  transform: rotate(10deg);
+}
+
+h1 { margin: 0 0 10px; }
+p { line-height: 1.6; font-size: 18px; }
+.btn {
+  margin-top: 18px;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #ff4d6d;
+  color: white;
+  transition: transform 0.2s;
+}
+.btn:hover { filter: brightness(0.95); transform: scale(1.05); }
+
+.hidden {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #fff0f6;
+  display: none;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.sig { margin-top: 18px; font-style: italic; opacity: 0.85; }
+
+/* Photo */
+#photo {
+  display: block;
+  margin: 20px auto;
+  max-width: 80%;
+  border-radius: 20px;
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: all 1s ease-in-out;
+}
+#photo.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Envelope emoji style */
+.envelope-container {
+  width: 160px;
+  height: 120px;
+  margin: 20px auto;
+  cursor: pointer;
+  position: relative;
+}
+.envelope-body {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: #ff4d6d;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+.envelope-container.open .envelope-body {
+  transform: scaleY(0.1);
+  opacity: 0;
+}
+.envelope-heart {
+  pointer-events: none;
+  user-select: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Background music -->
+<audio id="bg-music" loop>
+  <source src="pov-strings.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Envelope and kiss sounds -->
+<audio id="envelope-sound">
+  <source src="envelope.mp3" type="audio/mpeg">
+</audio>
+<audio id="kiss-sound">
+  <source src="kiss.mp3" type="audio/mpeg">
+</audio>
+
+<div id="sparkles"></div>
+
+<div class="card">
+  <div class="heart">❤️</div>
+
+  <h1>Hi <span id="name">my love</span>,</h1>
+  <p id="love-message"></p>
+
+  <!-- Music button -->
+  <button id="play-music" class="btn">Play Music 🎵</button>
+
+  <!-- Envelope -->
+  <div class="envelope-container" id="envelope">
+    <div class="envelope-body">
+      <span class="envelope-heart">❤️</span>
+    </div>
+  </div>
+
+  <!-- Kiss button -->
+  <button id="kiss-btn" class="btn">Send Kiss 😘</button>
+
+  <!-- Secret button -->
+  <button class="btn" id="revealBtn">Click for a secret 💌</button>
+
+  <!-- Photo -->
+  <img id="photo" src="photo.jpg" alt="Us together">
+
+  <div class="hidden" id="secret">
+    <p style="margin:0;">
+      If you ever doubt how much you mean to me, remember this:
+      <strong>you’re my favorite person</strong> — today and always. 💗
+      <br><br>
+      Happy Valentine's Day my love! 
+      <br><br>
+      I hope you enjoyed this - it was fun pretending to be a coder like you haha!
+      This was super interesting to make and I was already impressed with how you code,
+      but doing this myself... wow you are amazing! 💗
+      <br><br>
+      💻 Dev joke: <code>if(love > 100%) { ❤️ forever; }</code>
+    </p>
+  </div>
+
+  <p id="days" style="margin-top:18px; font-weight:bold;"></p>
+  <div class="sig">Love, <span id="from">[your name]</span></div>
+</div>
+
+<script>
+// Sparkles
+const sparklesContainer = document.getElementById('sparkles');
+for (let i = 0; i < 50; i++) {
+  const sparkle = document.createElement('div');
+  sparkle.className = 'sparkle';
+  sparkle.textContent = "❤️";
+  const startX = Math.random() * window.innerWidth;
+  const startY = Math.random() * window.innerHeight;
+  sparkle.style.left = startX + 'px';
+  sparkle.style.top = startY + 'px';
+  const moveX = (Math.random() - 0.5) * 300;
+  const moveY = -500 - Math.random() * 200;
+  sparkle.style.setProperty('--x', moveX + 'px');
+  sparkle.style.setProperty('--y', moveY + 'px');
+  const size = 8 + Math.random() * 10;
+  sparkle.style.fontSize = size + 'px';
+  sparkle.style.animationDuration = 3 + Math.random() * 3 + 's';
+  sparkle.style.animationDelay = Math.random() * 3 + 's';
+  sparklesContainer.appendChild(sparkle);
+}
+
+// Names
+const boyfriendName = "Baby 💗";
+const yourName = "Your forever hopeless romantic Gams 💗";
+document.getElementById("name").textContent = boyfriendName;
+document.getElementById("from").textContent = yourName;
+
+// Typing animation
+const message = `I wanted to make you something that’s more “you” — so I learned a little coding
+just to tell you this:
+I love you.
+
+You make my days softer, my laughs louder, and my heart feel safe.
+Thank you for being you.`;
+let i = 0;
+const speed = 40;
+const loveMessageEl = document.getElementById("love-message");
+function typeWriter() {
+  if (i < message.length) {
+    loveMessageEl.innerHTML += message.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+typeWriter();
+
+// Secret button
+const btn = document.getElementById("revealBtn");
+const secret = document.getElementById("secret");
+btn.addEventListener("click", () => {
+  const isHidden = secret.style.display !== "block";
+  secret.style.display = isHidden ? "block" : "none";
+  btn.textContent = isHidden ? "Hide the secret 🙈" : "Click for a secret 💌";
+  if(isHidden) secret.scrollIntoView({behavior: "smooth"});
+});
+
+// Days counter
+const startDate = new Date("02/07/2022");
+const now = new Date(14/02/2026);
+const diffTime = Math.abs(now - startDate);
+const diffDays = Math.floor(diffTime / (1000*60*60*24));
+document.getElementById("days").textContent = `We’ve been together for ${diffDays} days ❤️`;
+
+// Music button
+const bgMusic = document.getElementById("bg-music");
+const playBtn = document.getElementById("play-music");
+playBtn.addEventListener("click", () => {
+  bgMusic.volume = 0.2;
+  bgMusic.play();
+  playBtn.style.display = "none";
+});
+
+// Envelope click: reveal photo
+const envelope = document.getElementById("envelope");
+const envelopeSound = document.getElementById("envelope-sound");
+const photo = document.getElementById("photo");
+
+envelope.addEventListener("click", () => {
+  envelopeSound.play();
+  envelope.classList.add("open");
+  setTimeout(() => photo.classList.add("show"), 400);
+});
+
+// Kiss button louder than music
+const kissAudio = document.getElementById("kiss-sound");
+const kissBtn = document.getElementById("kiss-btn");
+kissBtn.addEventListener("click", () => {
+  kissAudio.volume = 1;
+  kissAudio.currentTime = 0;
+  kissAudio.play();
+});
+</script>
+</body>
+</html>
